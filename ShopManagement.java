@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-public class StudentManagement{
+public class ShopManagement{
     public static void main(String[] args) {
-        String url = "jdbc:mysql://localhost:3306/student";
+        String url = "jdbc:mysql://localhost:3306/Electronics";
             String username = "root";
             String password = "root";
         try {
@@ -32,23 +32,35 @@ public class StudentManagement{
                 switch (choice) {
                 case 1:
                     
-                    System.out.println("Enter Name :");
-                    String name = sc.nextLine();
+                    System.out.println("Enter Product Name :");
+                    String p_name = sc.nextLine();
 
-                    System.out.println("Enter Age :");
-                    Integer age = sc.nextInt();
+                    System.out.println("Enter Category :");
+                    String category = sc.nextLine();
+                    
+
+                    System.out.println("Enter Quantity :");
+                    Integer quantity = sc.nextInt();
                     sc.nextLine();
 
-                    System.out.println("Enter Course :");
-                    String course = sc.nextLine();
+                    System.out.println("Enter Warranty(In months) :");
+                    Integer warranty = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.println("Enter Price :");
+                    Integer price = sc.nextInt();
+                    sc.nextLine();
 
                    
-                    String ins ="insert into stud(name , age , course) value (? , ? , ?)";
+                    String ins ="insert into Product(Prod_Name , Category , Quantities, Warranty_in_month , Price) value (? , ? , ?, ? ,?)";
                     PreparedStatement pstmt = con.prepareStatement(ins);
 
-                    pstmt.setString(1, name);
-                    pstmt.setInt(2, age);
-                    pstmt.setString(3, course);
+                    pstmt.setString(1, p_name);
+                    pstmt.setString(2, category);
+                    pstmt.setInt(3, quantity);
+                    pstmt.setInt(4, warranty);
+                    pstmt.setInt(5, price);
+
 
                     int row=pstmt.executeUpdate();
 
@@ -65,19 +77,25 @@ public class StudentManagement{
                 case 2 :
                     
                     Statement stmt = con.createStatement();
-                    String view = "select * from stud";
+                    String view = "select * from Product";
                     ResultSet resultSet = stmt.executeQuery(view);
 
                     while(resultSet.next()){
-                        Integer id = resultSet.getInt("id");
-                        String Name = resultSet.getString("name");
-                        Integer Age = resultSet.getInt("age");
-                        String Course = resultSet.getString("course");
+                        Integer id = resultSet.getInt("Prod_id");
+                        String name = resultSet.getString("Prod_Name");
+                        String cate = resultSet.getString("Category");
+                        Integer quan = resultSet.getInt("Quantities");
+                        Integer Warranty = resultSet.getInt("Warranty_in_month");
+                        Integer p_price = resultSet.getInt("Price");
 
                         System.out.println("Id :"+id);
-                        System.out.println("Name :"+Name);
-                        System.out.println("Age :"+Age);
-                        System.out.println("Course :"+Course);
+                        System.out.println("Product Name :"+name);
+                        System.out.println("Category :"+cate);
+                        System.out.println("Quantity :"+quan);
+                        System.out.println("Warranty :"+Warranty);
+                        System.out.println("Price :"+p_price);
+
+
                     }
 
                     break;
@@ -86,22 +104,27 @@ public class StudentManagement{
                     System.out.println("Enter Id :");
                     Integer Id = sc.nextInt();
                     sc.nextLine();
-                    String Allview = "select * from stud where id=?";
+                    String Allview = "select * from Product where Prod_id=?";
                     PreparedStatement  Astmt = con.prepareStatement(Allview);
 
                     Astmt.setInt(1, Id);
                     ResultSet resultSet2 = Astmt.executeQuery();
 
                     if(resultSet2.next()){
-                        Integer id = resultSet2.getInt("id");
-                        String Name = resultSet2.getString("name");
-                        Integer Age = resultSet2.getInt("age");
-                        String Course = resultSet2.getString("course");
+                        Integer id = resultSet2.getInt("Prod_id");
+                        String name = resultSet2.getString("Prod_Name");
+                        String cate = resultSet2.getString("Category");
+                        Integer quan = resultSet2.getInt("Quantities");
+                        Integer Warranty = resultSet2.getInt("Warranty_in_month");
+                        Integer p_price = resultSet2.getInt("Price");
 
-                        System.out.println("\nId :"+id);
-                        System.out.println("Name :"+Name);
-                        System.out.println("Age :"+Age);
-                        System.out.println("Course :"+Course);
+                        System.out.println("Id :"+id);
+                        System.out.println("Product Name :"+name);
+                        System.out.println("Category :"+cate);
+                        System.out.println("Quantity :"+quan);
+                        System.out.println("Warranty :"+Warranty);
+                        System.out.println("Price :"+p_price);
+
                     }
                     else{
                         System.out.println("\nRecord not found!");
@@ -111,29 +134,43 @@ public class StudentManagement{
 
 
                 case 4 :
-                    System.out.println("Enter ID : ");
-                    Integer u_Id = sc.nextInt();
+
+                    System.out.println("Enter ID :");
+                    Integer p_id = sc.nextInt();
                     sc.nextLine();
 
-                    System.out.println("Enter Name :");
-                    String Newname = sc.nextLine();
+                    System.out.println("Enter Product Name :");
+                    String P_name = sc.nextLine();
 
-                    System.out.println("Enter Age :");
-                    Integer Newage = sc.nextInt();
+                    System.out.println("Enter Category :");
+                    String P_category = sc.nextLine();
+                    
+
+                    System.out.println("Enter Quantity :");
+                    Integer P_quantity = sc.nextInt();
                     sc.nextLine();
 
-                    System.out.println("Enter Course :");
-                    String Newcourse = sc.nextLine();
+                    System.out.println("Enter Warranty(In months) :");
+                    Integer P_warranty = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.println("Enter Price :");
+                    Integer P_price = sc.nextInt();
+                    sc.nextLine();
+
 
                     
-                    String update = "update stud set name = ? , age = ? , course = ? where id=?";
+                    String update = "update Product set Prod_Name = ? , Category = ? , Quantities = ?, Warranty_in_month = ? , Price = ? where Prod_id=?";
                     PreparedStatement ustmt = con.prepareStatement(update);
 
                     
-                    ustmt.setString(1,Newname);
-                    ustmt.setInt(2, Newage);
-                    ustmt.setString(3, Newcourse);
-                    ustmt.setInt(4, u_Id);
+                    ustmt.setString(1,P_name);
+                    ustmt.setString(2, P_category);
+                    ustmt.setInt(3, P_quantity);
+                    ustmt.setInt(4, P_warranty);
+                    ustmt.setInt(5, P_price);
+                    ustmt.setInt(6, p_id);
+
 
                     int Ucheck =ustmt.executeUpdate();
 
@@ -154,7 +191,7 @@ public class StudentManagement{
                     sc.nextLine();
 
                     
-                    String del = "delete from stud where id=?";
+                    String del = "delete from Product where Prod_id=?";
                     PreparedStatement dstmt = con.prepareStatement(del);
                     
                     dstmt.setInt(1, d_Id);
